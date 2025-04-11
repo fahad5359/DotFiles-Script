@@ -1,0 +1,7 @@
+---
+packages_to_install:
+  - neovim
+  - neofetch
+  - git
+  - curl
+  - wget

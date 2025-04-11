@@ -1,0 +1,17 @@
+---
+- name: "Setup a new env"
+  hosts: localhost
+  become: true
+  gather_facts: true
+
+  vars_files:
+    - ./vars/global_vars.yml
+  tasks:
+    - name: "📦1/2 Install Packages  {{ packages_to_install }}"
+      ansible.builtin.package:
+        name: "{{ packages_to_install }}"
+        state: present
+    - name: "2/2 Update System"
+      ansible.builtin.package:
+        name: '*'
+        state: present
