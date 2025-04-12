@@ -3,6 +3,7 @@ packages_to_install:
   - neovim
   - neofetch
   - git
+  - go
   - curl
   - wget
   # - lazygit

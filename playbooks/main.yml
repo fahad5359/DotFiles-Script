@@ -1,0 +1,13 @@
+- name: "Setup a new envaro"
+  hosts: localhost
+  become: true
+  gather_facts: true
+
+
+  vars_files:
+    - ../vars/global_vars.yml
+
+  roles:
+    - initial_setup
+    - initial_setup
+    - lazy_git

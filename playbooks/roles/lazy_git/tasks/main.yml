@@ -1,0 +1,17 @@
+---
+    - name: install lazygit rhel Family
+      ansible.builtin.shell: " {{ item }} "
+      loop:
+      - "dnf copr enable atim/lazygit -y"
+      - "dnf install lazygit -y"
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: install lazygit Debian Family
+      ansible.builtin.shell: |
+        set -e
+        LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": *"v\K[^"]*')
+        curl -Lo /tmp/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+        tar -xf /tmp/lazygit.tar.gz -C /tmp lazygit
+        install -Dm755 /tmp/lazygit /usr/local/bin/lazygit
+      when: ansible_facts['os_family'] == "Debian"
+      
