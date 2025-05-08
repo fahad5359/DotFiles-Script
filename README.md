@@ -1,11 +1,4 @@
 # DotFiles-Script
-
-
-# TODO:
-- ansible.builtin.include_role module
-- ansible.builtin.items lookup
-- ansible.builtin.gather_facts module
-- ansible.builtin.add_host module
-- ansible.builtin.set_fact module
-
-
+```bash
+ansible-playbook ./main_k3s.yml --ask-become --ask-vault-pass --ask-pass -i ./../inventory/hosts.yml
+```
