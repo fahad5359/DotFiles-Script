@@ -1,5 +1,5 @@
 - name: "Setup a new envaro"
-  hosts: worker
+  hosts: worker_logging
   become: true
   gather_facts: true
 
