@@ -1,0 +1,30 @@
+---
+    - name: "1/6 Check Controler node"
+      ansible.builtin.debug:
+        var: hostvars['controller']['ansible_host']
+
+    - name: "2/6 Check Controler node"
+      ansible.builtin.debug:
+        var: hostvars['worker']['ansible_host']
+
+#    - name: "3/6 Check if k3s is installed" 
+#      ansible.builtin.uri:
+#        url: http://www.example.com
+#      register: k6s_check_results
+#
+#
+#    - name: "4/6 Show if k3s is installed results"
+#      ansible.builtin.debug:
+#        var: {{ k6s_check_results }} 
+      
+
+    - name: "5/6 Retrive k3s install script "
+      ansible.builtin.shell: "curl -sfL https://get.k3s.io | K3S_URL=https://{{ hostvars['controller']['ansible_host'] }}:6443 K3S_TOKEN={{ k3s_token }} sh -"
+      register: curl_results
+
+
+    - name: "6/6 Show results of k3s instllation "
+      ansible.builtin.debug:
+        var: curl_results
+        #var: curl_results.stdout_lines
+      

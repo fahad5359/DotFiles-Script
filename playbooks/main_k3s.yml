@@ -1,5 +1,5 @@
 - name: "Setup a new envaro"
-  hosts: k8s
+  hosts: worker
   become: true
   gather_facts: true
 
@@ -8,5 +8,4 @@
     - ../vars/global_vars.yml
 
   roles:
-    - initial_setup
-    - lazy_git
+    - k3s_worker
