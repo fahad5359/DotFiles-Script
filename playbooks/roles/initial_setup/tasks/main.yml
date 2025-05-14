@@ -3,13 +3,48 @@
       ansible.builtin.package:
         name: '*'
         state: latest 
-    - name: Print all gathered facts
+      register: update_result
+
+    - name: "View Update Results"
       ansible.builtin.debug:
-        var: ansible_facts
+        var: update_result
+
+    - name: "2/4 Setup epel repo for rhel family"
+      ansible.builtin.shell: |
+        subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
+        subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms 
+        dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y
+      register: epel_result
+      when: ansible_facts['os_family'] == "RedHat"
+
+
     - name: "2/3 Install Packages  {{ packages_to_install }}"
       ansible.builtin.package:
         name: "{{ packages_to_install }}"
         state: present
-    - name: "3/3 Get starship install script"
-      ansible.builtin.shell:
-        cmd: "curl -sS https://starship.rs/install.sh > {{ main_User_Home_Linx }}/startshup_install.sh"
+      register: package_result
+
+
+    - name: "Package install results"
+      ansible.builtin.debug:
+        var: package_result 
+
+#    - name: "3/3 Get starship install script"
+#      ansible.builtin.shell:
+#        cmd: curl -sS https://starship.rs/install.sh | sh
+#      register: sharship_result
+#
+#
+#    - name: "Starshp install script results"
+#      ansible.builtin.debug:
+#        var: package_result 
+#      register: sharship_result
+#
+#    - name: "3/3  Add starship to bash"
+#      ansible.builtin.shell: |
+#        echo 'eval "$(starship init bash)"' >> ~/.bashrc
+#
+#    - name: "3/3  Add starship to zsh"
+#      ansible.builtin.shell: |
+#        echo 'eval "$(starship init zsh)"'  >> ~/.zshrc
+#
